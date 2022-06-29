@@ -1,6 +1,5 @@
 import React,{useContext} from 'react';
 import { useHistory } from 'react-router-dom';
-
 import './Header.css';
 import OlxLogo from '../../assets/OlxLogo';
 import Search from '../../assets/Search';
@@ -8,12 +7,15 @@ import Arrow from '../../assets/Arrow';
 import SellButton from '../../assets/SellButton';
 import SellButtonPlus from '../../assets/SellButtonPlus';
 import { authContext, fireBaseCotext } from '../../Store/firebaseContext';
+import {popUpContext} from '../Login/Modal'
 function Header() {
   const {user} = useContext(authContext)
   const {firebase} = useContext(fireBaseCotext)
   const history = useHistory()
+  const {setIsOpen} = useContext(popUpContext)
+  const {isOpen} = useContext(popUpContext)
   return (
-    <div className="headerParentDiv">
+    <div className={isOpen? "position" : "headerParentDiv"}>
       <div className="headerChildDiv">
         <div className="brandName">
           <OlxLogo></OlxLogo>
@@ -41,7 +43,8 @@ function Header() {
         <div className="loginPage">
           <span style={{cursor:'pointer'}} onClick={()=>{
             if(!user){
-              history.push('/login')
+              // history.push('/login')
+              setIsOpen(true)
             }else{
               history.push('/')
             }
@@ -50,11 +53,16 @@ function Header() {
         </div>
         {user && <span style={{cursor:'pointer'}} onClick={()=>{
           firebase.auth().signOut()
-          history.push('/login')
+          history.push('/')
         }}  >Logout</span>}
         <div onClick={
           ()=>{
-            history.push('/create')
+            if (user) {
+              
+              history.push('/create')
+            }else{
+              setIsOpen(true)
+            }
           }
         } className="sellMenu">
           <SellButton></SellButton>

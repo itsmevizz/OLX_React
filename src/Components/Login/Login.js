@@ -3,26 +3,33 @@ import {fireBaseCotext} from '../../Store/firebaseContext'
 import {useHistory} from 'react-router-dom'
 import Logo from '../../olx-logo.png';
 import './Login.css';
-
+import {popUpContext} from './Modal'
 
 function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const {firebase} = useContext(fireBaseCotext)
+  const {isOpen} = useContext (popUpContext)
+  const {setIsOpen} = useContext(popUpContext)
   const history = useHistory()
 const handleLogin =(e)=>{
   e.preventDefault()
   firebase.auth().signInWithEmailAndPassword(email,password).then(()=>{
     history.push('/')
+    setIsOpen(false)
   }).catch((error)=>{
     alert(error)
 
   })
 }
-
-  return (
+if (isOpen) {
+  return  (
+    <div className="wraper">
     <div>
       <div className="loginParentDiv">
+        <div>
+        <img onClick={()=>{setIsOpen(false)}} className="cancel" src="../../../Images/icons8-x-48.png" alt="" />
+        </div>
         <img width="200px" height="200px" src={Logo} alt=''></img>
         <form onSubmit={handleLogin}>
           <label htmlFor="fname">Email</label>
@@ -52,10 +59,16 @@ const handleLogin =(e)=>{
           <br />
           <button>Login</button>
         </form>
-        <a>Signup</a>
+        <a onClick={()=>{
+          history.push('/signup')
+        }} >Signup</a>
       </div>
     </div>
+    </div>
   );
+}else{
+  return null
+}
 }
 
 export default Login;

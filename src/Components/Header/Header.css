@@ -6,6 +6,12 @@
   z-index: 999;
 
 }
+.position{
+  padding: 10px;
+  background-color: whitesmoke;
+  width: 100vw;
+  z-index: 999;
+}
 
 .headerChildDiv {
   margin: auto;

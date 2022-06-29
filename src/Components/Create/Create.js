@@ -3,6 +3,7 @@ import './Create.css';
 import Header from '../Header/Header';
 import {fireBaseCotext, authContext} from'../../Store/firebaseContext'
 import { useHistory } from 'react-router-dom';
+import Modal from '../Login/Modal';
 const Create = () => {
   const {firebase} = useContext (fireBaseCotext)
   const {user} = useContext(authContext)
@@ -33,7 +34,7 @@ const Create = () => {
 
 
   return (
-    <Fragment>
+    <Fragment>        
       <Header />
       <card>
         <div className="centerDiv">
@@ -47,6 +48,7 @@ const Create = () => {
               onChange={(e) => setName(e.target.value)}
               name="Name"
               defaultValue=""
+              required
             />
             <br />
             <label htmlFor="fname">Category</label>
@@ -59,6 +61,7 @@ const Create = () => {
               onChange={(e) => setCategory(e.target.value)}
               name="category"
               defaultValue=""
+              required
             />
             <br />
             <label htmlFor="fname"
